@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국민대학교 학사일정</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        #headerBackground {
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        #changeImageBtn {
+            backdrop-filter: blur(4px);
+        }
+
+        #changeImageBtn:hover {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* 이미지 관련 스타일 */
+        #header {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        #header .bg-[url('사이버보안_이미지.jpg')] {
+            filter: brightness(0.8);
+            background-image: url('cyber-security-lock.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.9;
+        }
+
+        .month-btn {
+            @apply px-4 py-2 rounded-lg bg-white shadow-md hover:shadow-lg transition-all duration-200
+            border border-gray-200 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400
+            text-gray-700 hover:text-blue-600;
+        }
+
+        .month-btn.selected {
+            @apply bg-blue-500 text-white border-blue-500 hover:bg-blue-600 hover:border-blue-600;
+        }
+
+        #monthGrid {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 p-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg">
+            <!-- Header -->
+            <div class="relative h-[300px] rounded-t-lg overflow-hidden" id="header">
+                <!-- 배경 이미지 -->
+                <div id="headerBackground" class="absolute inset-0 bg-cover bg-center" style="background-image: url('스크린샷 2025-03-02 160134.png')"></div>
+                
+                <!-- 오버레이 그라데이션 -->
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-600/80"></div>
+
+                <!-- 헤더 콘텐츠 -->
+                <div class="relative z-10 h-full flex flex-col justify-center items-center text-center p-8">
+                    <h2 class="text-blue-100 text-lg font-light mb-2">KOOKMIN UNIVERSITY</h2>
+                    <div class="flex items-center justify-center gap-3 mb-3">
+                        <h3 class="text-white text-xl">Department of Cyber Security</h3>
+                        <span class="text-blue-200 text-xl font-light">/</span>
+                        <h3 class="text-white text-xl">Department of Mathematics</h3>
+                    </div>
+                    <h1 class="text-white text-3xl font-bold tracking-wide mb-1">
+                        2025 학년도 일반대학원 학사일정
+                    </h1>
+                    <div class="w-24 h-1 bg-blue-400 mx-auto mt-4 rounded-full"></div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <!-- 아이콘 범례 -->
+                <div class="flex justify-center gap-6 my-6 text-gray-600">
+                    <div class="flex items-center gap-2">
+                        <span>📚</span>
+                        <span>입학/졸업</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span>📝</span>
+                        <span>시험/성적</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span>📋</span>
+                        <span>논문</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span>📅</span>
+                        <span>신청/등록</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span>⭐</span>
+                        <span>중요</span>
+                    </div>
+                </div>
+
+                <!-- 월별 그리드 (하나만 유지) -->
+                <div class="grid grid-rows-2 grid-cols-6 gap-4 mb-8 max-w-[1200px] mx-auto" id="monthGrid">
+                    
+                    
+                </div>
+
+                <!-- 캘린더 상세 내용 표시 영역 -->
+                <div id="calendarDetail" class="mt-8">
+                    <!-- 여기에 선택된 월의 일정이 표시됩니다 -->
+                </div>
+
+                <div class="mt-4 text-sm text-gray-500 text-center">
+                    ※ 상기 일정은 대학원 사정에 따라 변경될 수 있음
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 학사 일정 데이터
+        const calendarData = {
+            3: [ // 3월
+                {
+                    date: "3.4-3.7",
+                    content: "2025학년도 1학기 일반대학원 연구등록",
+                    note: "09:00~17:00 (기일엄수)",
+                    link: "https://gds.kookmin.ac.kr/information/notice/3953"
+                },
+                {
+                    date: "3.4-3.19",
+                    content: "수업연한 단축신청서 제출",
+                    note: "",
+                    link: "https://gds.kookmin.ac.kr/information/notice/3950"
+                },
+                {
+                    date: "3.14",
+                    content: "일반대학원 [사이버보안학과] 종합시험",
+                    note: "⭐",
+                    link: "https://gds.kookmin.ac.kr/information/notice/3952"
+                }
+            ]
+        };
+
+        // 월별 데이터
+        const months = [
+            // 첫 번째 행
+            { num: 3, name: "3월", events: ['entrance', 'registration', 'exam'] },
+            { num: 4, name: "4월", events: [] },
+            { num: 5, name: "5월", events: [] },
+            { num: 6, name: "6월", events: [] },
+            { num: 7, name: "7월", events: [] },
+            { num: 8, name: "8월", events: [] },
+            // 두 번째 행 
+            { num: 9, name: "9월", events: [] },
+            { num: 10, name: "10월", events: [] },
+            { num: 11, name: "11월", events: [] },
+            { num: 12, name: "12월", events: [] },
+            { num: 1, name: "1월", events: [] },
+            { num: 2, name: "2월", events: [] }
+        ];
+
+        // 월별 버튼 생성
+        function createMonthButtons() {
+            const grid = document.getElementById('monthGrid');
+            months.forEach(month => {
+                const button = document.createElement('button');
+                button.className = 'p-4 rounded-lg bg-gray-100 hover:bg-blue-500 hover:text-white transition-colors';
+                button.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <span class="text-lg font-bold mb-2">${month.name}</span>
+                        <div class="flex gap-1 mt-1">
+                            ${month.events.map(event => getEventIcon(event)).join('')}
+                        </div>
+                    </div>
+                `;
+                button.onclick = () => selectMonth(month.num);
+                grid.appendChild(button);
+            });
+        }
+
+        // 이벤트 아이콘 가져오기
+        function getEventIcon(event) {
+            const icons = {
+                entrance: '📚',
+                exam: '📝',
+                paper: '📋',
+                registration: '📅',
+                important: '⭐'
+            };
+            return icons[event] || '';
+        }
+
+        // 월 선택 처리
+        function selectMonth(monthNum) {
+            // 이전 선택 해제
+            document.querySelectorAll('#monthGrid button').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+            });
+
+            // 새로운 선택
+            const selectedBtn = Array.from(document.querySelectorAll('#monthGrid button'))
+                .find(btn => btn.textContent.includes(`${monthNum}월`));
+            if (selectedBtn) {
+                selectedBtn.classList.add('bg-blue-600', 'text-white');
+            }
+
+            // 일정 표시
+            showCalendar(monthNum);
+        }
+
+        // 일정 표시
+        function getEventIconsForContent(content) {
+            const icons = [];
+            
+            // 입학/졸업 관련
+            if (content.includes('입학식') || content.includes('학위수여식') || content.includes('개교')) {
+                icons.push('📚');
+            }
+            
+            // 시험/성적 관련
+            if (content.includes('시험') || content.includes('성적')) {
+                icons.push('📝');
+            }
+            
+            // 논문 관련
+            if (content.includes('논문') || content.includes('청구') || 
+                content.includes('지도평가') || content.includes('예비심사')) {
+                icons.push('📋');
+            }
+            
+            // 등록/신청 관련
+            if (content.includes('등록') || content.includes('수강신청') || 
+                content.includes('휴·복학') || content.includes('신청')) {
+                icons.push('📅');
+            }
+            
+            // 중요 일정
+            if (content.includes('개강일') || content.includes('방학') || 
+                content.includes('개교') || content.includes('기념일')) {
+                icons.push('⭐');
+            }
+            
+            return icons;
+        }
+
+        function showCalendar(month) {
+            const detailElement = document.getElementById('calendarDetail');
+            const data = calendarData[month];
+
+            if (data) {
+                detailElement.classList.remove('hidden');
+                detailElement.innerHTML = `
+                    <h2 class="text-xl font-bold mb-4">${month}월 학사일정</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border p-4 text-left">일자</th>
+                                    <th class="border p-4 text-left">내용</th>
+                                    <th class="border p-4 text-left">비고</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.map(item => {
+                                    const icons = getEventIconsForContent(item.content);
+                                    if (item.important) icons.push('⭐');
+                                    
+                                    return `
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="border p-4 text-gray-600">${item.date}</td>
+                                            <td class="border p-4">
+                                                <div class="flex items-center gap-2">
+                                                    <div class="flex gap-1">
+                                                        ${icons.map(icon => `
+                                                            <span class="inline-block w-6 h-6 flex items-center justify-center">
+                                                                ${icon}
+                                                            </span>
+                                                        `).join('')}
+                                                    </div>
+                                                    ${item.link ? `
+                                                        <a href="${item.link}" 
+                                                           target="_blank" 
+                                                           class="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-2">
+                                                            ${item.content}
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                            </svg>
+                                                        </a>
+                                                    ` : `
+                                                        <span>${item.content}</span>
+                                                    `}
+                                                </div>
+                                            </td>
+                                            <td class="border p-4 text-gray-600">${item.note}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else {
+                detailElement.classList.remove('hidden');
+                detailElement.innerHTML = `
+                    <h2 class="text-xl font-bold mb-4">${month}월 학사일정</h2>
+                    <p class="text-gray-500 text-center py-4">해당 월의 일정이 없습니다.</p>
+                `;
+            }
+        }
+
+        // AI 보안 관련 이미지 배열
+        const securityImages = [
+            'https://images.unsplash.com/photo-1550751827-4bd374c3f58b', // 디지털 보안
+            'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb', // AI 네트워크
+            'https://images.unsplash.com/photo-1516116216624-53e697fedbea', // 사이버 보안
+            'https://images.unsplash.com/photo-1451187580459-43490279c0fa', // 데이터 시각화
+            'https://images.unsplash.com/photo-1558494949-ef010cbdcc31', // 디지털 락
+            'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5', // 바이너리 코드
+        ];
+
+        // 랜덤 이미지 설정 함수
+        function setRandomHeaderImage() {
+            const randomIndex = Math.floor(Math.random() * securityImages.length);
+            const selectedImage = securityImages[randomIndex];
+            const headerBackground = document.getElementById('headerBackground');
+            
+            // 이미지 URL에 품질 및 크기 파라미터 추가
+            const optimizedImageUrl = `${selectedImage}?auto=format&fit=crop&w=1920&q=80`;
+            
+            headerBackground.style.backgroundImage = `url('${optimizedImageUrl}')`;
+        }
+
+        // 페이지 로드 시 랜덤 이미지 설정
+        document.addEventListener('DOMContentLoaded', setRandomHeaderImage);
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', createMonthButtons);
+
+        // 월 버튼 클릭 이벤트 처리
+        document.querySelectorAll('.month-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const month = button.dataset.month;
+                document.querySelectorAll('.month-btn').forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                showCalendar(month);
+            });
+        });
+
+        // 초기 로드 시 3월 선택
+        document.querySelector('[data-month="3"]').click();
+    </script>
+</body>
+</html>
